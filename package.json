@@ -4,10 +4,10 @@
   "description": "",
   "main": "customer.js",
   "dependencies": {
-    "cli-table": "^0.3.1",
     "dotenv": "^8.2.0",
     "inquirer": "^7.0.0",
-    "mysql": "^2.17.1"
+    "mysql": "^2.17.1",
+    "table": "^5.4.6"
   },
   "devDependencies": {},
   "scripts": {
