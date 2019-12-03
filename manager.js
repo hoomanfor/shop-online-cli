@@ -70,6 +70,98 @@ function menu() {
                     }
                 })
             break;
+            case "Add to Inventory":
+                connection.query("SELECT * FROM products", function(error, response) {
+                    if (error) throw error;
+                    var ids = [];
+                    response.forEach(function(element) {
+                        ids.push(element.id);
+                    })
+                    inquirer.prompt([
+                        {
+                            type: "number",
+                            message: "What is the ID # of the product you would like to add inventory to?",
+                            name: "id",
+                            validate: function(input) {
+                                if (ids.indexOf(input) == -1) {
+                                    return "You have entered an invalid product ID #"
+                                } else {
+                                    return true; 
+                                }
+                            }
+                        },
+                        {
+                            type: "number",
+                            message: "How many are you adding to the inventory?",
+                            name: "quantity"
+                        }
+                    ]).then(function(answers) {
+                        var id = answers.id;
+                        var quantity = answers.quantity;
+                        connection.query("SELECT * FROM products WHERE ?",
+                        {
+                            id: id
+                        }, function(error, response) {
+                            var stock = response[0].stock_quantity;
+                            stock += quantity; 
+                            connection.query("UPDATE products SET ? WHERE ?",
+                            [
+                                {
+                                    stock_quantity: stock
+                                },
+                                {
+                                    id: id
+                                }
+                            ], function(error, data) {
+                                if (error) throw error; 
+                                console.log("");
+                                console.log("The new inventory of Product ID # " + id + " is " + stock + "!");
+                                console.log("");
+                                returnToMenu()
+                            });
+                        })
+                    })
+                })
+            break;
+            case "Add New Product":
+                inquirer.prompt([
+                    {
+                        type: "input",
+                        message: "What is the product name?",
+                        name: "name"
+                    },
+                    {
+                        type: "input",
+                        message: "Which department does the product belong to?",
+                        name: "dep"
+                    },
+                    {
+                        type: "number",
+                        message: "What is the unit cost of this product in USD?",
+                        name: "price"
+                    },
+                    {
+                        type: "number",
+                        message: "What is the inventory count of this product?",
+                        name: "inventory"
+                    }
+                ]).then(function(response) {
+                    var name = response.name;
+                    var dep = response.dep;
+                    var price = response.price;
+                    var inventory = response.inventory; 
+                    console.log(name, dep, price, inventory);
+                
+                    // connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ?",
+                    // [name, dep, price, inventory], function(error, response) {
+                    //     if (error) throw error; 
+                    //     console.log("");
+                    //     console.log("New product added to the database!");
+                    //     console.log("");
+                    //     returnToMenu()
+                    // })
+                })
+            break;
             default:
                 console.log("Default!");
         }

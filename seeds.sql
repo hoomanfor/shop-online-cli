@@ -9,4 +9,3 @@ VALUES ("Macbook Air", "Computing", 899.99, 25),
 ("Galaxy S10", "Mobile", 699.99, 25),
 ("Switch 32GB Console", "Gaming", 299.99, 25),
 ("Xbox One X 1TB", "Gaming", 349.99, 25);
-
