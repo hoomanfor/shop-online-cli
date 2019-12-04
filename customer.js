@@ -68,13 +68,15 @@ function buy() {
             if (error) throw error;
             var inventory = response[0].stock_quantity;
             var price = response[0].price;
+            var sales = response[0].product_sales;
             if (inventory < quantity) {
                 console.log("Sorry, we do not have a quantity of " + quantity + " in stock.");
                 console.log("Our current inventory of ID # " + id + " is " + inventory + "."); 
                 buy();
             } else {
                 inventory -= quantity;
-                var total = inventory * price;
+                var total = quantity * price;
+                sales += total; 
                 connection.query("UPDATE products SET ? WHERE ?",
                 [
                     {
@@ -87,6 +89,16 @@ function buy() {
                     console.log("Transaction complete! The total paid is $" + total.toFixed(2));
                     connection.end();
                 });
+                connection.query("UPDATE products SET ? WHERE ?",
+                [
+                    {
+                        product_sales: sales
+                    },
+                    {
+                        id: id
+                    }
+                ], function(error, response) {
+                })
             }
         })
     })
