@@ -150,16 +150,15 @@ function menu() {
                     var dep = response.dep;
                     var price = response.price;
                     var inventory = response.inventory; 
-                    console.log(name, dep, price, inventory);
-                
-                    // connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ?",
-                    // [name, dep, price, inventory], function(error, response) {
-                    //     if (error) throw error; 
-                    //     console.log("");
-                    //     console.log("New product added to the database!");
-                    //     console.log("");
-                    //     returnToMenu()
-                    // })
+                    var values = [[name, dep, price, inventory]];
+                    connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ?", 
+                    [values], function(error, response) {
+                        if (error) throw error; 
+                        console.log("");
+                        console.log("New product added to the database!");
+                        console.log("");
+                        returnToMenu()
+                    })
                 })
             break;
             default:
