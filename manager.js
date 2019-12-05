@@ -33,6 +33,9 @@ function menu() {
         }
     ).then(function(response) {
         console.log(response.action)
+        data = [
+            ['id', 'name', 'price', 'inventory']
+        ];
         var action = response.action; 
         switch (action) {
             case "View Products for Sale":

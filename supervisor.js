@@ -32,6 +32,9 @@ function menu() {
             name: "action"
         }
     ).then(function(response) {
+        data = [
+            ['department id', 'department name', 'overhead costs', 'product sales', 'total profit']
+        ];
         var action = response.action; 
         switch (action) {
             case "View Product Sales by Department":
@@ -52,13 +55,53 @@ function menu() {
                     })
                     output = table(data);
                     console.log(output);
+                    returnToMenu()
                 })
             break;
             case "Create New Department":
-                console.log(action);
+                inquirer.prompt([
+                    {
+                        type: "input",
+                        message: "What is the Name of the new Department?",
+                        name: "name"
+                    },
+                    {
+                        type: "number",
+                        message: "What are the overhead costs of this new Deparment in USD?",
+                        name: "overhead"
+                    }
+                ]).then(function(response) {
+                    var name = response.name;
+                    var overhead = response.overhead;
+                    var values = [[name, overhead]]
+                    connection.query("INSERT INTO departments (department_name, over_head_costs) VALUES ?", 
+                    [values], function(error, response) {
+                        if (error) throw error; 
+                        console.log("");
+                        console.log("New department added to the database!");
+                        console.log("");
+                        returnToMenu()
+                    })
+                })
             break;
             default:
                 console.log("Default!");
+        }
+    })
+}
+
+function returnToMenu() {
+    inquirer.prompt(
+        {
+            type: 'confirm',
+            message: 'Would you like to return to the Menu?',
+            name: 'confirm'
+        }
+    ).then(function(response) {
+        if (response.confirm) {
+            menu();
+        } else {
+            connection.end(); 
         }
     })
 }
