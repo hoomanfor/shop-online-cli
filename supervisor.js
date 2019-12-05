@@ -20,7 +20,7 @@ var data,
     output;
 
 data = [
-    ['id', 'name', 'price', 'inventory']
+    ['department id', 'department name', 'overhead costs', 'product sales', 'total profit']
 ];
 
 function menu() {
@@ -35,7 +35,24 @@ function menu() {
         var action = response.action; 
         switch (action) {
             case "View Product Sales by Department":
-                console.log(action);
+                var query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, "
+                query += "SUM(products.product_sales) AS product_sales, "
+                query += "(departments.over_head_costs-SUM(products.product_sales)) AS total_profit "
+                query += "FROM shop_db.departments "
+                query += "INNER JOIN shop_db.products "
+                query += "ON departments.department_name=products.department_name "
+                query += "GROUP BY departments.department_id"
+                connection.query(query, function(error, response) {
+                    if (error) throw error;
+                    response.forEach(function(element) {
+                        var row = [];
+                        row.push(element.department_id, element.department_name, "$" + element.over_head_costs.toFixed(2), 
+                        "$" + element.product_sales.toFixed(2), "$" + element.total_profit.toFixed(2));
+                        data.push(row);
+                    })
+                    output = table(data);
+                    console.log(output);
+                })
             break;
             case "Create New Department":
                 console.log(action);
