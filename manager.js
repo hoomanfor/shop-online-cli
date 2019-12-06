@@ -153,8 +153,8 @@ function menu() {
                     var dep = response.dep;
                     var price = response.price;
                     var inventory = response.inventory; 
-                    var values = [[name, dep, price, inventory]];
-                    connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity) VALUES ?", 
+                    var values = [[name, dep, price, inventory, 0]];
+                    connection.query("INSERT INTO products (product_name, department_name, price, stock_quantity, product_sales) VALUES ?", 
                     [values], function(error, response) {
                         if (error) throw error; 
                         console.log("");
