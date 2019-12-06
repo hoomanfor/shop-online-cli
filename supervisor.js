@@ -40,7 +40,7 @@ function menu() {
             case "View Product Sales by Department":
                 var query = "SELECT departments.department_id, departments.department_name, departments.over_head_costs, "
                 query += "SUM(products.product_sales) AS product_sales, "
-                query += "(departments.over_head_costs-SUM(products.product_sales)) AS total_profit "
+                query += "(SUM(products.product_sales)-departments.over_head_costs) AS total_profit "
                 query += "FROM shop_db.departments "
                 query += "INNER JOIN shop_db.products "
                 query += "ON departments.department_name=products.department_name "

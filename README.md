@@ -21,3 +21,13 @@ You will be able to run this CLI app by executing: `node manager.js`
 - Add new products which are not currently for sale.  
 
 ![manager-view](reference/manager.gif)
+
+**supervisor.js** is the Shop-Online supervisor experience.  
+You will be able to run this CLI app by executing: `node supervisor.js`
+
+**Features include:**
+- View product sales grouped by department.
+- Create a new department.
+
+![supervisor-view](reference/supervisor.gif)
+
