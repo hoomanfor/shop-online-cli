@@ -86,7 +86,9 @@ function buy() {
                         id: id
                     }
                 ], function(error, response) {
+                    console.log("");
                     console.log("Transaction complete! The total paid is $" + total.toFixed(2));
+                    console.log("");
                     connection.end();
                 });
                 connection.query("UPDATE products SET ? WHERE ?",
