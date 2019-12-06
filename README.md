@@ -20,7 +20,4 @@ You will be able to run this CLI app by executing: `node manager.js`
 - Increase the inventory count of existing products. 
 - Add new products which are not currently for sale.  
 
-![manager-view](reference/manager.gif)  
-
-
-
+![manager-view](reference/manager.gif)
